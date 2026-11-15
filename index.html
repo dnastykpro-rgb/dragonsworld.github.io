@@ -10,30 +10,32 @@
             --bg: #ffffff;
             --bg-sec: #f8fafc;
             --card: #ffffff;
-            --nav-bg: rgba(255, 255, 255, 0.88);
-            --text: #0f172a;
-            --text-muted: #475569;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --accent-text: #d97706;
             --border: #e2e8f0;
             --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
             --btn-bg: #f1f5f9;
-            --btn-text: #0f172a;
+            --btn-text: #1e293b;
             --input-bg: #f8fafc;
             --art-bg: #f1f5f9;
         }
 
         body.dark {
-            --bg: #09090b;
-            --bg-sec: #121215;
-            --card: #141418;
-            --nav-bg: rgba(9, 9, 11, 0.88);
-            --text: #f8fafc;
-            --text-muted: #a1a1aa;
-            --border: #27272a;
+            --bg: #0b0b0f;
+            --bg-sec: #13131a;
+            --card: #16161e;
+            --nav-bg: rgba(11, 11, 15, 0.9);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-text: #fbbf24;
+            --border: #272732;
             --shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
-            --btn-bg: #1f1f24;
-            --btn-text: #f8fafc;
-            --input-bg: #09090b;
-            --art-bg: #1b1b22;
+            --btn-bg: #1e1e28;
+            --btn-text: #f1f5f9;
+            --input-bg: #0b0b0f;
+            --art-bg: #1d1d26;
         }
 
         *{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
@@ -64,25 +66,23 @@
 
         nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background 0.25s,border-color 0.25s}
         .nav-in{max-width:1140px;margin:0 auto;padding:13px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-        .brand{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.35rem;color:var(--text)}
-        .brand span{color:#f97316}
+        .brand{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.35rem;color:var(--text);letter-spacing:0.6px}
         .nav-links{display:flex;gap:14px;font-size:0.86rem;font-weight:600;color:var(--text-muted);flex-wrap:wrap;align-items:center}
-        .nav-links a:hover{color:#f97316}
+        .nav-links a:hover{color:var(--accent-text)}
         .nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
         .soc-pill{padding:7px 12px;font-size:0.8rem}
         .theme-btn{padding:7px 13px;font-size:0.82rem}
-        .ip-btn{background:#18181b;color:#ffffff;border-color:#27272a;padding:8px 16px;font-size:0.83rem}
-        body.dark .ip-btn{background:#27272a;border-color:#3f3f46}
+        .ip-btn{background:#1e293b;color:#ffffff;border-color:#334155;padding:8px 16px;font-size:0.83rem}
+        body.dark .ip-btn{background:#272732;border-color:#3f3f4e}
         .hero{max-width:1050px;margin:0 auto;padding:60px 20px 44px;text-align:center}
         .status-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg-sec);border:1px solid var(--border);padding:7px 16px;border-radius:99px;font-size:0.84rem;font-weight:600;margin-bottom:18px}
         .dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
         .dot.off{background:#ef4444;box-shadow:0 0 8px #ef4444}
         .hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(2.6rem,7vw,4.7rem);line-height:1.1;margin-bottom:14px;color:var(--text)}
-        .hero h1 span{color:#f97316}
         .hero p{max-width:620px;margin:0 auto 28px;color:var(--text-muted);font-size:1.02rem;line-height:1.6}
         .hero-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-        .btn-main{background:#18181b;color:#ffffff;border-color:#18181b;padding:14px 26px;font-size:0.94rem}
-        body.dark .btn-main{background:#f8fafc;color:#09090b;border-color:#f8fafc}
+        .btn-main{background:#1e293b;color:#ffffff;border-color:#1e293b;padding:14px 26px;font-size:0.94rem}
+        body.dark .btn-main{background:#f1f5f9;color:#0b0b0f;border-color:#f1f5f9}
         .btn-sec{padding:14px 24px;font-size:0.94rem}
 
         section{max-width:1140px;margin:0 auto;padding:40px 20px}
@@ -96,7 +96,6 @@
         .box h3{font-size:1.15rem;font-weight:800;margin-bottom:6px;color:var(--text)}
         .box p{font-size:0.86rem;color:var(--text-muted);line-height:1.55}
 
-        /* Плашки доната с мультяшным 3D-персонажем сверху */
         .donate-card{display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-top:4px solid var(--rc,#f97316);padding:16px}
         .art-wrap{width:100%;height:125px;border-radius:14px;background:radial-gradient(circle at 50% 65%,var(--rc-soft,rgba(249,115,22,0.18)),var(--art-bg) 75%);display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:1px solid var(--border);position:relative;overflow:hidden}
         .art-wrap canvas{transition:transform 0.3s ease}
@@ -107,7 +106,7 @@
         .price{font-size:1.65rem;font-weight:800;color:var(--text);margin:2px 0 10px}
         .price span{font-size:0.78rem;font-weight:600;color:var(--text-muted)}
         .perks{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:16px;font-size:0.81rem;color:var(--text-muted)}
-        .perks li::before{content:"• ";color:#f97316;font-weight:900}
+        .perks li::before{content:"• ";color:var(--accent-text);font-weight:900}
         .buy-btn{width:100%;padding:11px;font-size:0.88rem}
 
         .client-banner{background:var(--bg-sec);border:1px solid var(--border);border-radius:24px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:var(--shadow)}
@@ -115,7 +114,7 @@
         .client-banner p{color:var(--text-muted);font-size:0.92rem;max-width:560px;line-height:1.55}
 
         .rule-row{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;font-size:0.88rem;color:var(--text-muted);box-shadow:var(--shadow)}
-        .rule-num{background:#f97316;color:#fff;font-weight:800;padding:3px 9px;border-radius:7px;font-size:0.78rem;flex-shrink:0}
+        .rule-num{background:#334155;color:#fff;font-weight:800;padding:3px 9px;border-radius:7px;font-size:0.78rem;flex-shrink:0}
 
         .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:99;padding:16px}
         .modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:410px;box-shadow:0 20px 50px rgba(0,0,0,0.4)}
@@ -135,7 +134,7 @@
 <body>
     <nav>
         <div class="nav-in">
-            <a href="#" class="brand">DRAGON<span>WORLD</span></a>
+            <a href="#" class="brand">DRAGONWORLD</a>
             <div class="nav-links">
                 <a href="#modes">Режимы</a>
                 <a href="#donate">Донат</a>
@@ -156,7 +155,7 @@
             <span class="dot" id="statusDot"></span>
             <span id="onlineText">Загрузка онлайна сервера...</span>
         </div>
-        <h1>Dragon<span>World</span></h1>
+        <h1>DragonWorld</h1>
         <p>Уникальный игровой мир Minecraft 1.21.4 с кастомными ивентами, честным PvP, отзывчивой администрацией и полной поддержкой клиента <b>DragonVisuals</b>.</p>
         <div class="hero-btns">
             <button class="btn-main" onclick="copyIp()">▶ Скопировать IP: 178.72.132.172:25162</button>
@@ -238,7 +237,6 @@
         const TG_LINK = "https://t.me";
         const VK_LINK = "https://vk.ru";
 
-        // Все 13 привилегий с твоего LuckPerms (можешь менять цены и описания под себя):
         const DONATES = [
             { id: "hero", name: "HERO", price: "39 ₽", color: "#22c55e", eye: "#16a34a", hat: "band", perks: ["Префикс [Hero] в чате", "Набор /kit hero", "3 точки дома (/sethome)", "Верстак /workbench"] },
             { id: "titan", name: "TITAN", price: "69 ₽", color: "#3b82f6", eye: "#2563eb", hat: "helmet", perks: ["Префикс [Titan] в чате", "Набор /kit titan", "4 точки дома + /feed", "Эндер-сундук /enderchest"] },
@@ -254,7 +252,6 @@
             { id: "halloween", name: "HALLOWEEN", price: "699 ₽", season: "Сезонный", color: "#ea580c", eye: "#facc15", hat: "pumpkin", perks: ["Мистический [Halloween]", "Эксклюзивный /kit halloween", "Аура летучих мышей", "Все права Phantom"] },
             { id: "custom", name: "CUSTOM", price: "999 ₽", season: "Максимум", color: "#d946ef", eye: "#f43f5e", hat: "crown", perks: ["Свой личный префикс!", "Максимальный /kit custom", "25 точек дома + все команды", "VIP в DragonVisuals навсегда!"] }
         ];
-        // Рисуем объёмного мультяшного Minecraft-персонажа на Canvas для каждой привилегии
         function drawCartoonChar(canvas, item) {
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 140, 115);
@@ -265,6 +262,56 @@
             ctx.ellipse(70, 104, 28, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
+            // Отдельная отрисовка настоящей хэллоуинской тыквы (Джек-фонарь) для HALLOWEEN
+            if (item.hat === "pumpkin") {
+                // Зелёный стебель сверху
+                ctx.fillStyle = "#16a34a";
+                ctx.beginPath();
+                ctx.roundRect(65, 11, 10, 13, 3);
+                ctx.fill();
+
+                // Объёмная ребристая тыква
+                ctx.fillStyle = "#ea580c";
+                ctx.beginPath();
+                ctx.ellipse(48, 60, 17, 36, 0, 0, Math.PI * 2);
+                ctx.ellipse(92, 60, 17, 36, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = "#f97316";
+                ctx.beginPath();
+                ctx.ellipse(70, 60, 24, 39, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Светлый блик слева
+                ctx.fillStyle = "rgba(255,255,255,0.22)";
+                ctx.beginPath();
+                ctx.ellipse(58, 56, 7, 25, -0.1, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Светящиеся треугольные глаза
+                ctx.fillStyle = "#fef08a";
+                ctx.beginPath();
+                ctx.moveTo(49, 52); ctx.lineTo(57, 40); ctx.lineTo(64, 52); ctx.closePath();
+                ctx.moveTo(76, 52); ctx.lineTo(83, 40); ctx.lineTo(91, 52); ctx.closePath();
+                ctx.fill();
+
+                // Треугольный нос
+                ctx.beginPath();
+                ctx.moveTo(67, 61); ctx.lineTo(70, 55); ctx.lineTo(73, 61); ctx.closePath();
+                ctx.fill();
+
+                // Светящаяся зубастая ухмылка
+                ctx.beginPath();
+                ctx.moveTo(48, 70);
+                ctx.lineTo(54, 78); ctx.lineTo(60, 72); ctx.lineTo(65, 80);
+                ctx.lineTo(70, 73); ctx.lineTo(75, 80); ctx.lineTo(80, 72);
+                ctx.lineTo(86, 78); ctx.lineTo(92, 70);
+                ctx.lineTo(85, 84); ctx.lineTo(55, 84);
+                ctx.closePath();
+                ctx.fill();
+                return;
+            }
+
             // Тело / броня в цвет привилегии
             ctx.fillStyle = item.color;
             ctx.beginPath();
@@ -273,7 +320,7 @@
             ctx.fillStyle = "rgba(255,255,255,0.22)";
             ctx.fillRect(51, 71, 16, 24);
 
-            // Голова персонажа (мультяшный 3D-блок с бликом)
+            // Голова персонажа
             ctx.fillStyle = "#f5c29b";
             ctx.beginPath();
             ctx.roundRect(42, 22, 56, 50, 9);
@@ -287,10 +334,10 @@
             // Волосы / капюшон
             ctx.fillStyle = item.id === "kratos" ? "#e2e8f0" : (item.hat === "hood" ? "#1e1b4b" : "#3b2314");
             ctx.beginPath();
-            ctx.roundRect(41, 20, 58, 15, [9, 9, 2, 2]);
+            ctx.roundRect(41, 20, 58, 15, 7);
             ctx.fill();
 
-            // Большие мультяшные глаза с бликами
+            // Глаза
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(49, 44, 15, 11);
             ctx.fillRect(76, 44, 15, 11);
@@ -301,11 +348,10 @@
             ctx.fillRect(55, 45, 3, 3);
             ctx.fillRect(78, 45, 3, 3);
 
-            // Улыбка / ухмылка
+            // Улыбка
             ctx.fillStyle = "#9a5b3c";
             ctx.fillRect(62, 61, 16, 4);
 
-            // Уникальный аксессуар каждой привилегии
             if (item.hat === "crown") {
                 ctx.fillStyle = "#facc15";
                 ctx.beginPath();
@@ -324,11 +370,6 @@
                 ctx.beginPath(); ctx.arc(89, 24, 8, 0, Math.PI * 2); ctx.fill();
                 ctx.fillStyle = "#fef08a";
                 ctx.beginPath(); ctx.arc(89, 24, 3, 0, Math.PI * 2); ctx.fill();
-            } else if (item.hat === "pumpkin") {
-                ctx.fillStyle = "#ea580c";
-                ctx.beginPath(); ctx.roundRect(41, 19, 58, 53, 10); ctx.fill();
-                ctx.fillStyle = "#facc15";
-                ctx.fillRect(50, 40, 13, 9); ctx.fillRect(77, 40, 13, 9); ctx.fillRect(56, 56, 28, 6);
             } else if (item.hat === "ushanka") {
                 ctx.fillStyle = "#38bdf8";
                 ctx.beginPath(); ctx.roundRect(39, 16, 62, 18, 8); ctx.fill();
@@ -339,7 +380,6 @@
             }
         }
 
-        // Отрисовываем все 13 карточек доната
         const grid = document.getElementById('donateGrid');
         DONATES.forEach((item, idx) => {
             const card = document.createElement('div');
