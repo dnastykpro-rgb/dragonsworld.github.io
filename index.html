@@ -390,14 +390,15 @@
             const u = document.getElementById('authUser').value.trim();
             const p = document.getElementById('authPass').value.trim();
             if (u.toLowerCase() === ADMIN_ACC.login && p === ADMIN_ACC.pass) {
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true, role: "admin" }));
-                closeAuth(); renderNav(); renderOrders(); syncData(); showToast("👑 Вы вошли как Админ!"); return;
-            }
-            const dep = DEPUTIES.find(d => d.login.toLowerCase() === u.toLowerCase() && d.pass === p);
-            if (dep) {
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u: dep.login, admin: true, role: "deputy" }));
-                closeAuth(); renderNav(); renderOrders(); syncData(); showToast("🛡 Вы вошли как Заместитель (" + dep.login + ")!"); return;
-            }
+    localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true, role: "admin" }));
+    closeAuth(); renderNav(); renderOrders(); syncData(); showToast("👑 Вы вошли как Админ!"); return;
+}
+const dep = (typeof DEPUTIES !== 'undefined' ? DEPUTIES : []).find(d => d.login.toLowerCase() === u.toLowerCase() && d.pass === p);
+if (dep) {
+    localStorage.setItem('dw_cur_user', JSON.stringify({ u: dep.login, admin: true, role: "deputy" }));
+    closeAuth(); renderNav(); renderOrders(); syncData(); showToast("🛡 Вы вошли как Заместитель (" + dep.login + ")!"); return;
+}
+
             await syncData();
             const db = getStore();
             if (authMode === 'reg') {
