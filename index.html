@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DragonWorld — Официальный сайт Minecraft сервера</title>
+    <title>Dragon World — Официальный сайт Minecraft сервера</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
             --bg-sec: #f8fafc;
             --card: #ffffff;
-            --nav-bg: rgba(255, 255, 255, 0.9);
+            --nav-bg: rgba(255, 255, 255, 0.92);
             --text: #1e293b;
             --text-muted: #64748b;
             --accent-text: #d97706;
@@ -20,13 +20,14 @@
             --btn-text: #1e293b;
             --input-bg: #f8fafc;
             --art-bg: #f1f5f9;
+            --mc-shadow: #cbd5e1;
         }
 
         body.dark {
             --bg: #0b0b0f;
             --bg-sec: #13131a;
             --card: #16161e;
-            --nav-bg: rgba(11, 11, 15, 0.9);
+            --nav-bg: rgba(11, 11, 15, 0.92);
             --text: #f1f5f9;
             --text-muted: #94a3b8;
             --accent-text: #fbbf24;
@@ -36,6 +37,7 @@
             --btn-text: #f1f5f9;
             --input-bg: #0b0b0f;
             --art-bg: #1d1d26;
+            --mc-shadow: #020617;
         }
 
         *{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
@@ -66,7 +68,7 @@
 
         nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background 0.25s,border-color 0.25s}
         .nav-in{max-width:1140px;margin:0 auto;padding:13px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-        .brand{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:1.35rem;color:var(--text);letter-spacing:0.6px}
+        .brand{font-family:'Press Start 2P',monospace;font-size:0.92rem;color:var(--text);letter-spacing:1px;text-shadow:2px 2px 0 var(--mc-shadow)}
         .nav-links{display:flex;gap:14px;font-size:0.86rem;font-weight:600;color:var(--text-muted);flex-wrap:wrap;align-items:center}
         .nav-links a:hover{color:var(--accent-text)}
         .nav-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -74,16 +76,19 @@
         .theme-btn{padding:7px 13px;font-size:0.82rem}
         .ip-btn{background:#1e293b;color:#ffffff;border-color:#334155;padding:8px 16px;font-size:0.83rem}
         body.dark .ip-btn{background:#272732;border-color:#3f3f4e}
-        .hero{max-width:1050px;margin:0 auto;padding:60px 20px 44px;text-align:center}
-        .status-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg-sec);border:1px solid var(--border);padding:7px 16px;border-radius:99px;font-size:0.84rem;font-weight:600;margin-bottom:18px}
+        .hero-wrap{max-width:1100px;margin:24px auto 14px;padding:0 20px}
+        .hero{position:relative;border-radius:26px;padding:64px 24px 54px;text-align:center;overflow:hidden;border:1px solid var(--border);background:var(--bg-sec);box-shadow:var(--shadow)}
+        #heroGifCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.85}
+        .hero-content{position:relative;z-index:1}
+        .status-pill{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:7px 16px;border-radius:99px;font-size:0.84rem;font-weight:600;margin-bottom:22px;box-shadow:var(--shadow)}
         .dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
         .dot.off{background:#ef4444;box-shadow:0 0 8px #ef4444}
-        .hero h1{font-family:'Cinzel Decorative',serif;font-size:clamp(2.6rem,7vw,4.7rem);line-height:1.1;margin-bottom:14px;color:var(--text)}
+        .hero h1{font-family:'Press Start 2P',monospace;font-size:clamp(1.75rem,4.6vw,3.35rem);line-height:1.35;margin-bottom:18px;color:var(--text);text-shadow:4px 4px 0 var(--mc-shadow);letter-spacing:2px}
         .hero p{max-width:620px;margin:0 auto 28px;color:var(--text-muted);font-size:1.02rem;line-height:1.6}
         .hero-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
         .btn-main{background:#1e293b;color:#ffffff;border-color:#1e293b;padding:14px 26px;font-size:0.94rem}
         body.dark .btn-main{background:#f1f5f9;color:#0b0b0f;border-color:#f1f5f9}
-        .btn-sec{padding:14px 24px;font-size:0.94rem}
+        .btn-sec{padding:14px 24px;font-size:0.94rem;background:var(--card)}
 
         section{max-width:1140px;margin:0 auto;padding:40px 20px}
         .sec-title{text-align:center;font-size:1.9rem;font-weight:800;margin-bottom:8px;color:var(--text)}
@@ -134,7 +139,7 @@
 <body>
     <nav>
         <div class="nav-in">
-            <a href="#" class="brand">DRAGONWORLD</a>
+            <a href="#" class="brand">Dragon World</a>
             <div class="nav-links">
                 <a href="#modes">Режимы</a>
                 <a href="#donate">Донат</a>
@@ -150,22 +155,27 @@
         </div>
     </nav>
 
-    <div class="hero">
-        <div class="status-pill">
-            <span class="dot" id="statusDot"></span>
-            <span id="onlineText">Загрузка онлайна сервера...</span>
-        </div>
-        <h1>DragonWorld</h1>
-        <p>Уникальный игровой мир Minecraft 1.21.4 с кастомными ивентами, честным PvP, отзывчивой администрацией и полной поддержкой клиента <b>DragonVisuals</b>.</p>
-        <div class="hero-btns">
-            <button class="btn-main" onclick="copyIp()">▶ Скопировать IP: 178.72.132.172:25162</button>
-            <a href="#donate" class="btn-link btn-sec">👑 Магазин привилегий</a>
+    <div class="hero-wrap">
+        <div class="hero">
+            <canvas id="heroGifCanvas"></canvas>
+            <div class="hero-content">
+                <div class="status-pill">
+                    <span class="dot" id="statusDot"></span>
+                    <span id="onlineText">Загрузка онлайна сервера...</span>
+                </div>
+                <h1>Dragon World</h1>
+                <p>Уникальный игровой мир Minecraft 1.21.4 с кастомными ивентами, честным PvP, отзывчивой администрацией и полной поддержкой клиента <b>DragonVisuals</b>.</p>
+                <div class="hero-btns">
+                    <button class="btn-main" onclick="copyIp()">▶ Скопировать IP: 178.72.132.172:25162</button>
+                    <a href="#donate" class="btn-link btn-sec">👑 Магазин привилегий</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <section id="modes">
         <h2 class="sec-title">Игровые режимы</h2>
-        <p class="sec-sub">Выбирай свой стиль игры на DragonWorld</p>
+        <p class="sec-sub">Выбирай свой стиль игры на Dragon World</p>
         <div class="grid-3">
             <div class="box">
                 <span class="mode-icon">⚔️</span>
@@ -184,10 +194,9 @@
             </div>
         </div>
     </section>
-
     <section id="donate">
         <h2 class="sec-title">Привилегии и Донат</h2>
-        <p class="sec-sub">Все 13 рангов сервера DragonWorld — выбери свой статус</p>
+        <p class="sec-sub">Все 13 рангов сервера Dragon World — выбери свой статус</p>
         <div class="grid-donate" id="donateGrid"></div>
     </section>
 
@@ -195,7 +204,7 @@
         <div class="client-banner">
             <div>
                 <h2>✦ Фирменный клиент DragonVisuals 1.21.4</h2>
-                <p>Играй на DragonWorld с максимальным комфортом: плавный ClickGui, 3D Katana, TargetESP, TargetHUD и облачные конфиги в нашем официальном лаунчере.</p>
+                <p>Играй на Dragon World с максимальным комфортом: плавный ClickGui, 3D Katana, TargetESP, TargetHUD и облачные конфиги в нашем официальном лаунчере.</p>
             </div>
             <a href="https://github.io" target="_blank" class="btn-link btn-main">Скачать DragonVisuals →</a>
         </div>
@@ -206,12 +215,13 @@
         <p class="sec-sub">Соблюдение правил делает игру честной и приятной для всех</p>
         <div class="rule-row"><span class="rule-num">1.1</span><span>Запрещено использование читов, кликеров и стороннего ПО, дающего преимущество в бою (визуальный мод DragonVisuals полностью разрешён).</span></div>
         <div class="rule-row"><span class="rule-num">1.2</span><span>Запрещены оскорбления игроков, спам, флуд и реклама сторонних ресурсов в общем чате.</span></div>
-        <div class="rule-row"><span class="rule-num">1.3</span><span>Запрещён багоюз, дюп ресурсов и попытки навредить стабильной работе сервера DragonWorld.</span></div>
+        <div class="rule-row"><span class="rule-num">1.3</span><span>Запрещён багоюз, дюп ресурсов и попытки навредить стабильной работе сервера Dragon World.</span></div>
     </section>
+
     <div class="modal-bg" id="buyModal" onclick="if(event.target===this) closeBuy()">
         <div class="modal">
             <h3 id="buyTitle">Покупка привилегии</h3>
-            <p id="buyDesc">Введите ваш игровой никнейм на сервере DragonWorld, чтобы оформить покупку в Telegram или ВКонтакте.</p>
+            <p id="buyDesc">Введите ваш игровой никнейм на сервере Dragon World, чтобы оформить покупку в Telegram или ВКонтакте.</p>
             <input type="text" id="buyNick" placeholder="Ваш ник в Minecraft (напр. Bratellaly)">
             <div class="modal-acts">
                 <button style="flex:1;padding:10px" onclick="confirmBuy('tg')">Написать в Telegram</button>
@@ -229,7 +239,7 @@
             <a href="https://vk.ru" target="_blank" class="btn-link soc-pill">Канал ВКонтакте</a>
             <a href="https://github.io" target="_blank" class="btn-link soc-pill">Клиент DragonVisuals</a>
         </div>
-        © 2026 DragonWorld Minecraft Server • IP: 178.72.132.172:25162 • Не является официальным продуктом Mojang.
+        © 2026 Dragon World Minecraft Server • IP: 178.72.132.172:25162 • Не является официальным продуктом Mojang.
     </footer>
 
     <script>
@@ -252,25 +262,66 @@
             { id: "halloween", name: "HALLOWEEN", price: "250 ₽", season: "Сезонный", color: "#ea580c", eye: "#facc15", hat: "pumpkin", perks: ["Мистический [Halloween]", "Эксклюзивный /kit halloween", "Аура летучих мышей", "Все права Phantom"] },
             { id: "custom", name: "CUSTOM", price: "250 ₽", season: "Максимум", color: "#d946ef", eye: "#f43f5e", hat: "crown", perks: ["Свой личный префикс!", "Максимальный /kit custom", "25 точек дома + все команды", "VIP в DragonVisuals навсегда!"] }
         ];
+        (function initHeroAnim() {
+            const c = document.getElementById('heroGifCanvas');
+            const ctx = c.getContext('2d');
+            let w, h;
+            const colors = ['#f97316', '#facc15', '#a855f7', '#22c55e', '#38bdf8'];
+            const blocks = Array.from({ length: 28 }, (_, idx) => ({
+                x: Math.random(),
+                y: Math.random(),
+                size: 8 + Math.random() * 14,
+                speed: 0.0008 + Math.random() * 0.0018,
+                rot: Math.random() * Math.PI * 2,
+                rSpeed: (Math.random() - 0.5) * 0.02,
+                color: colors[idx % colors.length]
+            }));
+
+            function resize() {
+                w = c.width = c.offsetWidth;
+                h = c.height = c.offsetHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function loop() {
+                ctx.clearRect(0, 0, w, h);
+                for (const b of blocks) {
+                    b.y -= b.speed;
+                    b.rot += b.rSpeed;
+                    if (b.y < -0.1) { b.y = 1.1; b.x = Math.random(); }
+
+                    ctx.save();
+                    ctx.translate(b.x * w, b.y * h);
+                    ctx.rotate(b.rot);
+                    ctx.globalAlpha = 0.24;
+                    ctx.fillStyle = b.color;
+                    ctx.fillRect(-b.size / 2, -b.size / 2, b.size, b.size);
+                    ctx.strokeStyle = b.color;
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(-b.size / 2, -b.size / 2, b.size, b.size);
+                    ctx.restore();
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
+        })();
+
         function drawCartoonChar(canvas, item) {
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 140, 115);
 
-            // Тень снизу
             ctx.fillStyle = "rgba(0,0,0,0.16)";
             ctx.beginPath();
             ctx.ellipse(70, 104, 28, 6, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Отдельная отрисовка настоящей хэллоуинской тыквы (Джек-фонарь) для HALLOWEEN
             if (item.hat === "pumpkin") {
-                // Зелёный стебель сверху
                 ctx.fillStyle = "#16a34a";
                 ctx.beginPath();
                 ctx.roundRect(65, 11, 10, 13, 3);
                 ctx.fill();
 
-                // Объёмная ребристая тыква
                 ctx.fillStyle = "#ea580c";
                 ctx.beginPath();
                 ctx.ellipse(48, 60, 17, 36, 0, 0, Math.PI * 2);
@@ -282,25 +333,21 @@
                 ctx.ellipse(70, 60, 24, 39, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Светлый блик слева
                 ctx.fillStyle = "rgba(255,255,255,0.22)";
                 ctx.beginPath();
                 ctx.ellipse(58, 56, 7, 25, -0.1, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Светящиеся треугольные глаза
                 ctx.fillStyle = "#fef08a";
                 ctx.beginPath();
                 ctx.moveTo(49, 52); ctx.lineTo(57, 40); ctx.lineTo(64, 52); ctx.closePath();
                 ctx.moveTo(76, 52); ctx.lineTo(83, 40); ctx.lineTo(91, 52); ctx.closePath();
                 ctx.fill();
 
-                // Треугольный нос
                 ctx.beginPath();
                 ctx.moveTo(67, 61); ctx.lineTo(70, 55); ctx.lineTo(73, 61); ctx.closePath();
                 ctx.fill();
 
-                // Светящаяся зубастая ухмылка
                 ctx.beginPath();
                 ctx.moveTo(48, 70);
                 ctx.lineTo(54, 78); ctx.lineTo(60, 72); ctx.lineTo(65, 80);
@@ -311,8 +358,6 @@
                 ctx.fill();
                 return;
             }
-
-            // Тело / броня в цвет привилегии
             ctx.fillStyle = item.color;
             ctx.beginPath();
             ctx.roundRect(47, 68, 46, 30, 6);
@@ -320,7 +365,6 @@
             ctx.fillStyle = "rgba(255,255,255,0.22)";
             ctx.fillRect(51, 71, 16, 24);
 
-            // Голова персонажа
             ctx.fillStyle = "#f5c29b";
             ctx.beginPath();
             ctx.roundRect(42, 22, 56, 50, 9);
@@ -331,13 +375,11 @@
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Волосы / капюшон
             ctx.fillStyle = item.id === "kratos" ? "#e2e8f0" : (item.hat === "hood" ? "#1e1b4b" : "#3b2314");
             ctx.beginPath();
             ctx.roundRect(41, 20, 58, 15, 7);
             ctx.fill();
 
-            // Глаза
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(49, 44, 15, 11);
             ctx.fillRect(76, 44, 15, 11);
@@ -348,7 +390,6 @@
             ctx.fillRect(55, 45, 3, 3);
             ctx.fillRect(78, 45, 3, 3);
 
-            // Улыбка
             ctx.fillStyle = "#9a5b3c";
             ctx.fillRect(62, 61, 16, 4);
 
@@ -440,7 +481,7 @@
         function confirmBuy(platform) {
             const nick = document.getElementById('buyNick').value.trim();
             if (nick.length < 3) return alert("Введите корректный игровой никнейм!");
-            const msg = "Привет! Хочу купить " + selectedItem + " (" + selectedPrice + ") на DragonWorld (IP: " + SERVER_IP + "). Мой ник: " + nick;
+            const msg = "Привет! Хочу купить " + selectedItem + " (" + selectedPrice + ") на Dragon World (IP: " + SERVER_IP + "). Мой ник: " + nick;
             navigator.clipboard.writeText(msg).catch(()=>{});
             showToast("✓ Заявка скопирована в буфер обмена!");
             window.open(platform === 'tg' ? TG_LINK : VK_LINK, "_blank");
