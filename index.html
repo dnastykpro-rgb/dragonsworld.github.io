@@ -110,8 +110,13 @@
         .ex-res span{font-size:0.9rem;color:var(--text-muted);font-weight:600}
         .ex-res b{font-size:1.25rem;color:var(--accent-text);font-weight:800}
 
-        .order-list{display:flex;flex-direction:column;gap:10px;max-width:850px;margin:0 auto}
-        .order-item{background:var(--bg-sec);border:1px solid var(--border);border-radius:16px;padding:16px 20px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+        .order-list{display:flex;flex-direction:column;gap:12px;max-width:850px;margin:0 auto}
+        .order-item{background:var(--bg-sec);border:1px solid var(--border);border-radius:16px;padding:16px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+        .order-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+        .reply-row{display:flex;gap:8px;width:100%;margin-top:4px;flex-wrap:wrap}
+        .reply-row input{flex:1;min-width:200px;background:var(--input-bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:10px;font-family:inherit;font-size:0.84rem;outline:none}
+        .reply-row input:focus{border-color:#f97316}
+        .reply-box{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.35);border-radius:10px;padding:10px 14px;font-size:0.85rem;color:var(--text);line-height:1.45}
         .st-wait{background:#fef3c7;color:#b45309;padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800}
         .st-done{background:#dcfce7;color:#15803d;padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800}
         .st-deny{background:#fee2e2;color:#b91c1c;padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800}
@@ -309,6 +314,10 @@
     <script>
         const DW_BIN_URL = "https://npoint.io";
         const ADMIN_ACC = { login: "admin", pass: "dragon2026" };
+        const DEPUTIES = [
+            { login: "zam1", pass: "dragon111" },
+            { login: "zam2", pass: "dragon222" }
+        ];
         const SERVER_IP = "178.72.132.172:25162";
         const COIN_RATE = 100;
 
@@ -381,21 +390,26 @@
             const u = document.getElementById('authUser').value.trim();
             const p = document.getElementById('authPass').value.trim();
             if (u.toLowerCase() === ADMIN_ACC.login && p === ADMIN_ACC.pass) {
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true }));
+                localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true, role: "admin" }));
                 closeAuth(); renderNav(); renderOrders(); syncData(); showToast("👑 Вы вошли как Админ!"); return;
+            }
+            const dep = DEPUTIES.find(d => d.login.toLowerCase() === u.toLowerCase() && d.pass === p);
+            if (dep) {
+                localStorage.setItem('dw_cur_user', JSON.stringify({ u: dep.login, admin: true, role: "deputy" }));
+                closeAuth(); renderNav(); renderOrders(); syncData(); showToast("🛡 Вы вошли как Заместитель (" + dep.login + ")!"); return;
             }
             await syncData();
             const db = getStore();
             if (authMode === 'reg') {
                 if (u.length < 3 || u.length > 16) return alert("Ник от 3 до 16 символов!");
-                if (u.toLowerCase() === 'admin' || db.users[u]) return alert("Этот ник уже занят!");
+                if (u.toLowerCase() === 'admin' || DEPUTIES.some(d => d.login.toLowerCase() === u.toLowerCase()) || db.users[u]) return alert("Этот ник уже занят!");
                 db.users[u] = { p };
                 await pushStore(db);
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u, admin: false }));
+                localStorage.setItem('dw_cur_user', JSON.stringify({ u, admin: false, role: "player" }));
                 showToast("✓ Аккаунт " + u + " зарегистрирован!");
             } else {
                 if (!db.users[u] || db.users[u].p !== p) return alert("Неверный никнейм или пароль!");
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u, admin: false }));
+                localStorage.setItem('dw_cur_user', JSON.stringify({ u, admin: false, role: "player" }));
                 showToast("✓ Добро пожаловать, " + u + "!");
             }
             closeAuth(); renderNav(); renderOrders();
@@ -417,7 +431,8 @@
             if (!cur) {
                 document.getElementById('navActions').innerHTML = `${soc}${themeBtn}<button class="soc-pill" onclick="openAuth('login')">Войти / Регистрация</button>${ip}`;
             } else {
-                const badge = cur.admin ? `<button class="soc-pill" style="background:#f97316;color:#fff" onclick="openOrdersModal()">👑 Заявки игроков</button>` : `<button class="soc-pill" style="font-weight:800" onclick="openOrdersModal()">👤 ${esc(cur.u)}</button>`;
+                const staffTitle = cur.role === 'deputy' ? `🛡 Зам: ${esc(cur.u)}` : `👑 Заявки игроков`;
+                const badge = cur.admin ? `<button class="soc-pill" style="background:#f97316;color:#fff" onclick="openOrdersModal()">${staffTitle}</button>` : `<button class="soc-pill" style="font-weight:800" onclick="openOrdersModal()">👤 ${esc(cur.u)}</button>`;
                 document.getElementById('navActions').innerHTML = `${soc}${themeBtn}${badge}<button class="soc-pill" onclick="logoutUser()">Выйти</button>${ip}`;
                 if (!cur.admin) {
                     document.getElementById('exNick').value = cur.u;
@@ -457,12 +472,14 @@
                 nick: nick,
                 type: "Донат: " + selectedItem + " (" + selectedPrice + ")",
                 note: note || "Без комментария",
+                reply: "",
+                answeredBy: "",
                 status: "wait",
                 date: new Date().toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
             });
             await pushStore(db);
             closeBuy();
-            showToast("✓ Заявка на " + selectedItem + " отправлена Админу!");
+            showToast("✓ Заявка на " + selectedItem + " отправлена!");
             openOrdersModal();
         }
 
@@ -488,6 +505,8 @@
                 nick: nick,
                 type: "Обмен: " + (rub * COIN_RATE) + " Монет ➔ " + rub + " Р",
                 note: "Покупка игровой валюты Р за Монеты",
+                reply: "",
+                answeredBy: "",
                 status: "wait",
                 date: new Date().toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
             });
@@ -497,12 +516,37 @@
         }
 
         async function setOrderStatus(id, st) {
+            const cur = getCurUser();
             const db = getStore();
             const ord = db.orders.find(o => o.id === id);
-            if (ord) { ord.status = st; await pushStore(db); showToast("Ответ отправлен игроку!"); }
+            if (ord) {
+                ord.status = st;
+                ord.answeredBy = cur && cur.role === 'deputy' ? `Зам (${cur.u})` : 'Админ';
+                await pushStore(db);
+                showToast("Статус обновлен!");
+            }
+        }
+
+        async function sendOrderReply(id) {
+            const cur = getCurUser();
+            const inp = document.getElementById('replyInp_' + id);
+            if (!inp) return;
+            const msg = inp.value.trim();
+            if (!msg) return showToast("⚠️ Введите текст сообщения или номер карты!");
+            const db = getStore();
+            const ord = db.orders.find(o => o.id === id);
+            if (ord) {
+                ord.reply = msg;
+                ord.answeredBy = cur && cur.role === 'deputy' ? `Зам (${cur.u})` : 'Админ';
+                if (ord.status === 'wait') ord.status = 'now';
+                await pushStore(db);
+                showToast("✉️ Сообщение отправлено игроку!");
+            }
         }
 
         async function delOrder(id) {
+            const cur = getCurUser();
+            if (cur && cur.role === 'deputy') return showToast("⛔ Удалять заявки может только главный Админ!");
             const db = getStore();
             db.orders = db.orders.filter(o => o.id !== id);
             await pushStore(db);
@@ -531,35 +575,46 @@
             }
 
             if (cur.admin) {
-                titleEl.innerText = "👑 Заявки игроков";
-                subEl.innerText = "Выберите быстрый ответ для каждой заявки игрока";
+                const isMainAdmin = cur.role !== 'deputy';
+                titleEl.innerText = isMainAdmin ? "👑 Заявки игроков (Админ)" : `🛡 Заявки игроков (Зам: ${esc(cur.u)})`;
+                subEl.innerText = "Выберите статус или отправьте игроку номер карты / контакт Telegram";
                 if (!allOrders.length) { listEl.innerHTML = `<div class="box" style="text-align:center"><p>Пока нет ни одной заявки от игроков.</p></div>`; return; }
                 listEl.innerHTML = allOrders.map(o => {
                     return `<div class="order-item">
-                        <div>
-                            <div style="font-weight:800;font-size:1rem;margin-bottom:4px">${esc(o.type)} ${getStatusBadge(o.status)}</div>
-                            <div style="font-size:0.83rem;color:var(--text-muted)">Ник в игре: <b>${esc(o.nick)}</b> • Аккаунт: ${esc(o.user)} • ${esc(o.date)}</div>
-                            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px">Комментарий: ${esc(o.note)}</div>
+                        <div class="order-top">
+                            <div>
+                                <div style="font-weight:800;font-size:1rem;margin-bottom:4px">${esc(o.type)} ${getStatusBadge(o.status)}</div>
+                                <div style="font-size:0.83rem;color:var(--text-muted)">Ник: <b>${esc(o.nick)}</b> • Аккаунт: ${esc(o.user)} • ${esc(o.date)} ${o.answeredBy ? `• <b>Ответил: ${esc(o.answeredBy)}</b>` : ''}</div>
+                                <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px">Комментарий игрока: ${esc(o.note)}</div>
+                            </div>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">
+                                <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'now')">Да, сейчас</button>
+                                <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'later')">Извините, позже</button>
+                                <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'repair')">Донат на ремонте</button>
+                                ${isMainAdmin ? `<button style="padding:7px 10px;font-size:0.8rem" onclick="delOrder(${o.id})">🗑</button>` : ''}
+                            </div>
                         </div>
-                        <div style="display:flex;gap:6px;flex-wrap:wrap">
-                            <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'now')">Да, сейчас</button>
-                            <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'later')">Извините, позже</button>
-                            <button style="padding:7px 11px;font-size:0.8rem" onclick="setOrderStatus(${o.id},'repair')">Донат на ремонте</button>
-                            <button style="padding:7px 10px;font-size:0.8rem" onclick="delOrder(${o.id})">🗑</button>
+                        ${o.reply ? `<div class="reply-box">💬 <b>Ваш ответ игроку:</b> ${esc(o.reply)}</div>` : ''}
+                        <div class="reply-row">
+                            <input type="text" id="replyInp_${o.id}" placeholder="Напишите игроку номер карты, ссылку на ТГ или сообщение..." value="${esc(o.reply || '')}">
+                            <button style="padding:8px 14px;font-size:0.82rem" onclick="sendOrderReply(${o.id})">✉️ Отправить</button>
                         </div>
                     </div>`;
                 }).join('');
             } else {
                 const my = allOrders.filter(o => o.user === cur.u || o.nick.toLowerCase() === cur.u.toLowerCase());
                 titleEl.innerText = "Мои заявки";
-                subEl.innerText = "Ответ администратора появится прямо в вашей карточке заявки";
+                subEl.innerText = "Ответ администратора и реквизиты появятся прямо в вашей заявке";
                 if (!my.length) { listEl.innerHTML = `<div class="box" style="text-align:center"><p>У вас пока нет отправленных заявок. Выберите донат на сайте или обменяйте Монеты на Р!</p></div>`; return; }
                 listEl.innerHTML = my.map(o => {
                     return `<div class="order-item">
-                        <div>
-                            <div style="font-weight:800;font-size:0.98rem;margin-bottom:4px">${esc(o.type)} ${getStatusBadge(o.status, true)}</div>
-                            <div style="font-size:0.82rem;color:var(--text-muted)">Ник: <b>${esc(o.nick)}</b> • ${esc(o.date)}</div>
+                        <div class="order-top">
+                            <div>
+                                <div style="font-weight:800;font-size:0.98rem;margin-bottom:4px">${esc(o.type)} ${getStatusBadge(o.status, true)}</div>
+                                <div style="font-size:0.82rem;color:var(--text-muted)">Ник: <b>${esc(o.nick)}</b> • ${esc(o.date)} ${o.answeredBy ? `• Обработал: ${esc(o.answeredBy)}` : ''}</div>
+                            </div>
                         </div>
+                        ${o.reply ? `<div class="reply-box">💬 <b>Сообщение от ${esc(o.answeredBy || 'Администрации')}:</b> ${esc(o.reply)}</div>` : ''}
                     </div>`;
                 }).join('');
             }
