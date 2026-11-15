@@ -381,8 +381,10 @@
             const u = document.getElementById('authUser').value.trim();
             const p = document.getElementById('authPass').value.trim();
             if (u.toLowerCase() === ADMIN_ACC.login && p === ADMIN_ACC.pass) {
-                localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true }));
-                closeAuth(); syncData(); showToast("👑 Вы вошли как Админ!"); return;
+            localStorage.setItem('dw_cur_user', JSON.stringify({ u: "admin", admin: true }));
+            closeAuth(); renderNav(); syncData(); showToast("👑 Вы вошли как Админ!"); return;
+            }
+            
             }
             await syncData();
             const db = getStore();
