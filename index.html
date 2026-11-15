@@ -312,7 +312,7 @@
     </footer>
 
     <script>
-        const DW_BIN_URL = "https://npoint.io";
+        const DW_BIN_URL = "https://dragon-world-146af-default-rtdb." + "://firebaseio.com";
         const ADMIN_ACC = { login: "admin", pass: "dragon2026" };
         const DEPUTIES = [
             { login: "zam1", pass: "dragon111" },
@@ -370,7 +370,7 @@
             if (DW_BIN_URL.includes("ВСТАВЬ_СЮДА")) return;
             try {
                 await fetch(DW_BIN_URL, {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
